@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +24,29 @@ public class Slave {
         this.time = slave.getTime();
         new MulticastReceiver(this, "233.0.0.1", 9000).start();
         new UnicastReceiver(this).start();
+        Timer timer = new Timer();
+        timer.schedule(timerTask(), 0, 5000);
+        timer.schedule(timerError(), 0, 20000);
+    }
+
+    private TimerTask timerTask() {
+        return new TimerTask() {
+            @Override
+            public void run() {
+                time = time.plusSeconds(5);
+                System.out.println("SLAVE [ " + slave.getId() + "] - Time: " + time);
+            }
+        };
+    }
+
+    private TimerTask timerError() {
+        return new TimerTask() {
+            @Override
+            public void run() {
+                time = time.minusMinutes(2);
+                System.out.println("SLAVE [ " + slave.getId() + "] - Time Delay : " + time);
+            }
+        };
     }
 
     protected void sendTimeToMaster() {

@@ -28,7 +28,7 @@ public class Master {
 //        new MulticastReceiver().start();
 
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        scheduledExecutorService.scheduleAtFixedRate(berkeleyTask(), 1, 5, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleAtFixedRate(berkeleyTask(), 1, 15, TimeUnit.SECONDS);
     }
 
     public Runnable berkeleyTask() {
