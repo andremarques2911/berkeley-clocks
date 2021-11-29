@@ -3,10 +3,12 @@ package com.pucrs;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Berkeley {
     public static List<Configuration> calculate(List<Configuration> times) {
         var localTime = LocalTime.now();
+
         var timesWithMaster = new ArrayList<>(times);
         timesWithMaster.add(new Configuration(0, localTime, LocalTime.parse("00:00")));
 

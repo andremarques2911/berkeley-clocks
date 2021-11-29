@@ -25,7 +25,6 @@ public class Master {
         this.totalSlaves = totalSlaves;
         this.slavesConfigurations = slavesConfigurations;
         this.multicastSender = new MulticastSender("233.0.0.1", 9000);
-//        new MulticastReceiver().start();
 
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
         scheduledExecutorService.scheduleAtFixedRate(berkeleyTask(), 1, 15, TimeUnit.SECONDS);
@@ -45,13 +44,6 @@ public class Master {
                         .orElseThrow();
                 this.sendTimeToSlave(slaveToFix, time.getTime().toString());
             });
-
-//            List<Configuration> slavesToFix = this.slavesConfigurations.stream()
-//                    .filter(slave -> times.stream().anyMatch(time -> time.getId() == slave.getId()))
-//                    .collect(Collectors.toList());
-//            slavesToFix.forEach(slave -> {
-//                this.sendTimeToSlave(slave, newTime);
-//            });
         };
     }
 
@@ -96,7 +88,7 @@ public class Master {
             outputStream = socket.getOutputStream();
             dataOutputStream = new DataOutputStream(outputStream);
             dataOutputStream.writeUTF(time);
-            System.out.println("MASTER - Send: " + time);
+            System.out.println("MASTER - Send to slave[" + slave.getId() + "]: " + time);
             dataOutputStream.flush();
         } catch (IOException e) {
             log.log(Level.SEVERE, e.getMessage(), e);
