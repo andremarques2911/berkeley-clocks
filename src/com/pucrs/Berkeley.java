@@ -19,18 +19,10 @@ public class Berkeley {
             var difference = localTime.toNanoOfDay() - time.getTime().toNanoOfDay();
             var rtt = difference - time.getDelay().toNanoOfDay();
             var oneWayDelay = rtt / 2;
-            if (time.getTime().isAfter(localTime))
-                time.setTime(time.getTime().minusNanos(difference + oneWayDelay));
-            else
-                time.setTime(time.getTime().plusNanos(difference));
-//            if (time.getTime().isAfter(localTime))
-//                time.setTime(time.getTime().minusNanos((long) average + difference - time.getDelay().toNanoOfDay()));
-//            else
-//                time.setTime(time.getTime().plusNanos((long) average + difference - time.getDelay().toNanoOfDay()));
+            var offset = average + oneWayDelay;
+            time.setTime(time.getTime().plusNanos((long) offset));
         });
 
-        // RTT = localTime - times[i].getTime() - tdelay
-        // one-way delay = RTT/2
         return times;
     }
 }
